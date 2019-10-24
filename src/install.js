@@ -6,6 +6,14 @@
  */
 
 module.exports = async api => {
+	const execa = require('execa');
+
+	if (!api.hasPackage('typescript')) {
+		api.onExitLog(
+			'You need to configure typescript on the project before installing this extension. See https://github.com/thibautguedou3/quasar-typescript-extension'
+		);
+		return;
+	}
 	const devDependencies = {
 		'@typescript-eslint/eslint-plugin': '2.5.0',
 		'@typescript-eslint/parser': '2.5.0',
@@ -55,8 +63,6 @@ module.exports = async api => {
 		'vetur.format.defaultFormatter.html': 'prettier',
 		'vetur.format.defaultFormatter.js': 'prettier-eslint'
 	});
-
-	const execa = require('execa');
 
 	execa('npm install').then(() => {
 		if (api.prompts.fixLint) {
