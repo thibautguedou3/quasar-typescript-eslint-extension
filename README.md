@@ -1,32 +1,39 @@
-Quasar App Extension Title <- change name
-===
+# Quasar Typescript Eslint app extension
 
-_Be sure to change this readme as appropriate for your app extension._
-
-_Think about the organization of this file and how the information will be beneficial to the user._
-
-> Add a short description of your App Extension. What does it do? How is it beneficial? Why would someone want to use it?
+This extension provides a basic eslint configuration and prettier to a quasar project already using typescript. If you don't have it installed on a project, see: https://github.com/thibautguedou3/quasar-typescript-extension
 
 # Install
+
+- Add extension to your dependencies:
+
 ```bash
-quasar ext add my-ext <- change name
+ npm install -D git+ssh://github.com:thibautguedou3/quasar-typescript-eslint-extension
 ```
-Quasar CLI will retrieve it from NPM and install the extension.
+
+- Then invoke the extension in your quasar project:
+
+```bash
+quasar ext invoke typescript-eslint-extension
+```
+
+- You can now run `quasar dev` and see that the project is running and that eslint errors and warning will be shown in your terminal and/or code editor
 
 ## Prompts
 
-> If your app extension uses prompts, explain them here, otherwise remove this section.
+- Do you use VSCode ?
+
+> This extension will add to your `settings.json` the appropriate configuration for vetur, eslint and prettier to work together
+
+- Do you want us to fix the lint errors in your project ?
+
+> By the end of the installation, we can launch `npm run lint -- --fix` to automaticaly fix errors that can be fixed
 
 # Uninstall
+
 ```bash
-quasar ext remove my-ext <- change name
+quasar ext remove typescript-eslint-extension
 ```
 
-# Info
-> Add longer information here that will help the user of your app extension.
-
-# Other Info
-> Add other information that's not as important to know
-
 # Donate
+
 If you appreciate the work that went into this App Extension, please consider [donating to Quasar](https://donate.quasar.dev).
