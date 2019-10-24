@@ -34,35 +34,50 @@ module.exports = async api => {
 
 	const fs = require('fs');
 
-	if (!fs.existsSync('.vscode')) {
-		fs.mkdirSync('.vscode');
+	if (api.prompts.vscode) {
+		if (!fs.existsSync('.vscode')) {
+			fs.mkdirSync('.vscode');
+		}
+
+		if (!fs.existsSync('.vscode/settings.json')) {
+			fs.writeFileSync('.vscode/settings.json', '{}');
+		}
+
+		api.extendJsonFile('.vscode/settings.json', {
+			'editor.formatOnSave': true,
+			'eslint.autoFixOnSave': true,
+			'eslint.validate': [
+				{
+					language: 'vue',
+					autoFix: true
+				},
+				{
+					language: 'html',
+					autoFix: true
+				},
+				{
+					language: 'javascript',
+					autoFix: true
+				}
+			],
+			'vetur.format.defaultFormatter.html': 'prettier',
+			'vetur.format.defaultFormatter.js': 'prettier-eslint'
+		});
+
+		const gitignorePath = api.resolve.app('.gitignore');
+		// read .gitignore
+		let buffer = fs.readFileSync(gitignorePath, 'utf8');
+		// convert to array
+		let data = buffer.split('\n');
+
+		// rejoin array to string
+		data = data.filter(value => value.trim() !== '.vscode').join('\n');
+
+		// convert to buffer
+		buffer = Buffer.from(data);
+		// write .gitignore
+		fs.writeFileSync(gitignorePath, buffer, 'utf8');
 	}
-
-	if (!fs.existsSync('.vscode/settings.json')) {
-		fs.writeFileSync('.vscode/settings.json', '{}');
-	}
-
-	api.extendJsonFile('.vscode/settings.json', {
-		'editor.formatOnSave': true,
-		'eslint.autoFixOnSave': true,
-		'eslint.validate': [
-			{
-				language: 'vue',
-				autoFix: true
-			},
-			{
-				language: 'html',
-				autoFix: true
-			},
-			{
-				language: 'javascript',
-				autoFix: true
-			}
-		],
-
-		'vetur.format.defaultFormatter.html': 'prettier',
-		'vetur.format.defaultFormatter.js': 'prettier-eslint'
-	});
 
 	execa('npm install').then(() => {
 		if (api.prompts.fixLint) {

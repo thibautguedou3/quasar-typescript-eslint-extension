@@ -42,6 +42,12 @@
 module.exports = function() {
 	return [
 		{
+			name: 'vscode',
+			type: 'confirm',
+			message: 'Do you use VSCode?',
+			default: true
+		},
+		{
 			name: 'fixLint',
 			type: 'confirm',
 			message: 'Do you want us to fix lint errors in your project?',
